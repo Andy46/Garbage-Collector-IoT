@@ -1,0 +1,9 @@
+boards/
+build/
+child_image/
+CMakeLists.txt
+Kconfig
+prj_minimal.conf
+prj.conf
+README.rst
+sample.yaml
