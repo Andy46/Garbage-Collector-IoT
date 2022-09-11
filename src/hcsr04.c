@@ -11,11 +11,12 @@
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
 
-static struct device *hcsr04_dev = NULL;
-static uint32_t distance = -1; // in cm
+static const struct device *hcsr04_dev;
 
-void hcsr04_config ()
+void hcsr04_init ()
 {
+	printk("Starting HC-SR04 Peripheral\n");
+
     // Get Port device for HC-SR04
     hcsr04_dev = device_get_binding(HCSR04_PORT);
 
@@ -38,19 +39,18 @@ void hcsr04_config ()
     gpio_pin_configure(hcsr04_dev, HCSR04_ECHO_PIN, (GPIO_INPUT | GPIO_ACTIVE_HIGH));
 	printk (" Echo pin configured.\n");
 
-	// Init variables
-	distance = 0;
-
 	printk("HCSR04 Configured!\n");
 }
 
-void hcsr04_measure ()
+float hcsr04_measure ()
 {
 	uint32_t cycle_start;
 	uint32_t cycle_stop;
 	uint32_t cycle_diff;
 	uint32_t measure_time;
 	uint32_t val;
+
+	float distance = -1.0f; // in cm
 
     if (hcsr04_dev != NULL)
     {
@@ -78,11 +78,8 @@ void hcsr04_measure ()
 		measure_time = k_cyc_to_ns_floor64(cycle_diff);
 		distance = measure_time / 58000;
 		printk("%d ns\n", measure_time);
-		printk("%d cm\n", distance);
+		printk("%f cm\n", distance);
     }
-}
 
-uint32_t get_distance ()
-{
 	return distance;
-} 
+}

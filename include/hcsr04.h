@@ -4,10 +4,8 @@
 
 #include <stdint.h>
 
-void hcsr04_config ();
+void hcsr04_init ();
 
-void hcsr04_measure ();
-
-uint32_t get_distance ();
+float hcsr04_measure ();
 
 #endif // _INCLUDE_HCSR04_H_
