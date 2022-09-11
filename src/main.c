@@ -9,16 +9,16 @@
 #include <zephyr/sys/printk.h>
 #include <zephyr/settings/settings.h>
 
-// // Peripherals includes
-// #include "sensors/hcsr04.h"
+// Peripherals includes
+#include "sensors/hcsr04.h"
 // #include "sensors/bme680.h"
 
-// // Data collected/warnings types
-// #include "data/container.h"
+// Data collected/warnings types
+#include "data/container.h"
 // // #include "data/warnings.h"
 
-// // Global data
-// static t_container g_container = {0};
+// Global data
+static t_container g_container = {0};
 // // static t_warnings g_warnings = {0};
 
 /**  
@@ -28,7 +28,7 @@ void initialize (void)
 {
 // 	// Configure sensor peripherals
 // 	bme680_init ();
-// 	hcsr04_init ();
+	hcsr04_init ();
 	
 // 	// Configure comms peripherals
 // 	// bt_init ();
@@ -39,38 +39,38 @@ void initialize (void)
  */
 void data_collection (void)
 {
-// 	t_container container_status;
-// 	float distance = -1.0;
+	t_container container_status;
+	float distance = -1.0;
 // 	float temperature = -1.0;
 // 	float humidity = -1.0;
 // 	int err = 0;
 
-// 	// Update fill status
-// 	distance = hcsr04_measure ();
-// 	if (distance < FILL_ERROR_THRESHOLD)
-// 	{
-// 		container_status.fill_status = F_ERROR;
-// 	} 
-// 	else if (distance >= FILL_EMPTY_THRESHOLD) 
-// 	{
-// 		container_status.fill_status = F_EMPTY;
-// 	} 
-// 	else if (distance >= FILL_25P_THRESHOLD) 
-// 	{
-// 		container_status.fill_status = F_25P;
-// 	} 
-// 	else if (distance >= FILL_50P_THRESHOLD) 
-// 	{
-// 		container_status.fill_status = F_50P;
-// 	} 
-// 	else if (distance >= FILL_75P_THRESHOLD) 
-// 	{
-// 		container_status.fill_status = F_75P;
-// 	} 
-// 	else if (distance >= FILL_FULL_THRESHOLD)
-// 	{
-// 		container_status.fill_status = F_FULL;
-// 	}
+	// Update fill status
+	distance = hcsr04_measure ();
+	if (distance < FILL_ERROR_THRESHOLD)
+	{
+		container_status.fill_status = F_ERROR;
+	} 
+	else if (distance >= FILL_EMPTY_THRESHOLD) 
+	{
+		container_status.fill_status = F_EMPTY;
+	} 
+	else if (distance >= FILL_25P_THRESHOLD) 
+	{
+		container_status.fill_status = F_25P;
+	} 
+	else if (distance >= FILL_50P_THRESHOLD) 
+	{
+		container_status.fill_status = F_50P;
+	} 
+	else if (distance >= FILL_75P_THRESHOLD) 
+	{
+		container_status.fill_status = F_75P;
+	} 
+	else if (distance >= FILL_FULL_THRESHOLD)
+	{
+		container_status.fill_status = F_FULL;
+	}
 
 // 	// Update position
 // 	// TODO: Implement
@@ -116,8 +116,8 @@ void data_collection (void)
 // 		container_status.humidity = H_ERROR;
 // 	}
 
-// 	// End collection
-// 	g_container = container_status;
+	// End collection
+	g_container = container_status;
 }
 
 /**  

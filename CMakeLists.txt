@@ -17,7 +17,7 @@ target_sources(app PRIVATE
   src/main.c
   # src/sensors/bme680.c
   # src/sensors/bmi270.c
-  # src/sensors/hcsr04.c
+  src/sensors/hcsr04.c
   # src/processors/*.
   # src/comms/bluetooth.c
 )
