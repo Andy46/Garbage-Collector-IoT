@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: LicenseRef-Nordic-5-Clause
  */
 
-#ifndef SENSOR_H
-#define SENSOR_H
+#ifndef _INCLUDE_SENSORS_BME680_H_
+#define _INCLUDE_SENSORS_BME680_H_
 
 #include <zephyr/drivers/sensor.h>
 
@@ -71,4 +71,4 @@ int bme680_get_pressure(float *pressure);
  */
 int bme680_get_humidity(float *humidity);
 
-#endif /* SENSOR_H */
+#endif /* _INCLUDE_SENSORS_BME680_H_ */

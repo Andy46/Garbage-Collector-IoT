@@ -1,7 +1,4 @@
-
-
-#include "hcsr04.h"
-#include "pinout.h"
+#include "sensors/hcsr04.h"
 
 #include <stddef.h>
 #include <string.h>

@@ -1,9 +1,9 @@
 
-#ifndef _INCLUDE_CONTAINER_H_
-#define _INCLUDE_CONTAINER_H_
+#ifndef _INCLUDE_DATA_CONTAINER_H_
+#define _INCLUDE_DATA_CONTAINER_H_
 
 // Filled type 
-typedef enum t_fill {
+typedef enum {
     F_ERROR = 0,
     F_EMPTY, 
     F_25P, 
@@ -29,7 +29,7 @@ typedef struct {
 } t_position;
 
 // Humidity type
-typedef enum t_humidity {
+typedef enum {
     H_ERROR = 0,
     H_LOW, 
     H_MEDIUM,
@@ -40,7 +40,7 @@ typedef enum t_humidity {
 #define HUM_HIGH_THRESHOLD 75.0f
 
 // Temperature type
-typedef enum t_temperature {
+typedef enum {
     T_ERROR = 0, 
     T_LOW, 
     T_NORMAL,
@@ -51,11 +51,11 @@ typedef enum t_temperature {
 #define MAX_TEMP_THRESHOLD 50.0f
 
 // Container status type
-typedef struct t_container {
+typedef struct {
     t_fill fill_status;
     t_position position;
     t_humidity humidity;
     t_temperature temperature;
 } t_container;
 
-#endif // _INCLUDE_CONTAINER_H_
+#endif // _INCLUDE_DATA_CONTAINER_H_

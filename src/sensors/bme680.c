@@ -6,7 +6,7 @@
 
 #include <zephyr/logging/log.h>
 
-#include "bme680.h"
+#include "sensors/bme680.h"
 
 /*
  * Sensor value is represented as having an integer and a fractional part,
@@ -56,6 +56,7 @@ int bme680_init(void)
 			printk ("Failed to get device");
 			err = ENODEV;
 		}
+	    printk("BME680 Configured!\n");
 	}
 
 	return err;
