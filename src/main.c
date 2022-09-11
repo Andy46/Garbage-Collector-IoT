@@ -21,24 +21,24 @@
 // static t_container g_container = {0};
 // // static t_warnings g_warnings = {0};
 
-// /**  
-//  * Initialize phase function
-//  */
-// void initialize (void)
-// {
+/**  
+ * Initialize phase function
+ */
+void initialize (void)
+{
 // 	// Configure sensor peripherals
 // 	bme680_init ();
 // 	hcsr04_init ();
 	
 // 	// Configure comms peripherals
 // 	// bt_init ();
-// }
+}
 
-// /**  
-//  * Data Collection phase function
-//  */
-// void data_collection (void)
-// {
+/**  
+ * Data Collection phase function
+ */
+void data_collection (void)
+{
 // 	t_container container_status;
 // 	float distance = -1.0;
 // 	float temperature = -1.0;
@@ -118,24 +118,24 @@
 
 // 	// End collection
 // 	g_container = container_status;
-// }
+}
 
-// /**  
-//  * Data Processing phase function
-//  */
-// void data_processing (void)
-// {
+/**  
+ * Data Processing phase function
+ */
+void data_processing (void)
+{
 
-// }
+}
 
-// /**  
-//  * Data Publication phase function
-//  */
-// void data_publication (void)
-// {
-// 	// Update bluetooth data
-// 	// bt_update (container);
-// }
+/**  
+ * Data Publication phase function
+ */
+void data_publication (void)
+{
+	// Update bluetooth data
+	// bt_update (container);
+}
 
 void main(void)
 {
@@ -143,23 +143,23 @@ void main(void)
 	int counter = 0;
 	
   	// Initialize phase
-	// initialize ();
+	initialize ();
 
 	for (;;) {
 		// Wait until next measure time
-		k_sleep(K_MSEC(5000));
+		k_sleep(K_MSEC(1000));
 	
 		// Loop counter
 		counter++;
 		printk ("Counter value is %d\n", counter);
 		
 		// // Data Collection 
-		// data_collection ();
+		data_collection ();
 
 		// // Data Processing
-		// data_processing ();
+		data_processing ();
 
 		// // Data publication 
-		// data_publication ();
+		data_publication ();
 	}
 }
