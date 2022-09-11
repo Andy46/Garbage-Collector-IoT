@@ -10,8 +10,8 @@
 #include <zephyr/settings/settings.h>
 
 // Peripherals includes
-#include "sensors/hcsr04.h"
 #include "sensors/bme680.h"
+#include "sensors/hcsr04.h"
 
 // Data collected/warnings types
 #include "data/container.h"
