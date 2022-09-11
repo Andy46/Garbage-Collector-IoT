@@ -10,6 +10,8 @@
 
 static const struct device *hcsr04_dev;
 
+/* Implementation based on https://www.hackster.io/ric96/zephyr-rtos-and-hc-sr04-ultrasonic-sensor-2df11a */
+
 void hcsr04_init ()
 {
 	printk("Starting HC-SR04 Peripheral\n");
