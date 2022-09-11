@@ -24,16 +24,16 @@
 	// };
 };
 
-// &i2c1 {
-// 	status = "okay";
+&i2c1 {
+	status = "okay";
 
-// 	bme680@76 {
-// 		compatible = "bosch,bme680";
-// 		label = "BME680";
-// 		reg = <0x76>;
-// 		status = "okay";
-// 	};
-// };
+	bme680@76 {
+		compatible = "bosch,bme680";
+		label = "BME680";
+		reg = <0x76>;
+		status = "okay";
+	};
+};
 
 /* Taken from common.dts */
 // &spi3 {
