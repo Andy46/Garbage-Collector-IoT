@@ -21,8 +21,7 @@
 #include "processors/alerts.h"
 
 // Communication functions
-// #include "comms/bluetooth.h"
-// #include "comms/bt_service.h"
+#include "comms/bluetooth.h"
 
 // Global data
 static t_container g_container = {0};
@@ -38,7 +37,7 @@ void initialize (void)
 	bme680_init ();
 	
 	// Configure comms peripherals
- 	// bt_init ();
+ 	bt_init ();
 }
 
 /**  

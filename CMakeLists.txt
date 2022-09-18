@@ -19,7 +19,8 @@ target_sources(app PRIVATE
   # src/sensors/bmi270.c
   src/sensors/hcsr04.c
   src/processors/alerts.c
-  # src/comms/bluetooth.c
+  src/comms/bluetooth.c
+  src/comms/bt_service.c
 )
 
 zephyr_include_directories (

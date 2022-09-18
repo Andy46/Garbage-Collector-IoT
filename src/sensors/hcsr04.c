@@ -76,8 +76,9 @@ float hcsr04_measure ()
         
 		measure_time = k_cyc_to_ns_floor64(cycle_diff);
 		distance = measure_time / 58000;
-		printk("%d ns\n", measure_time);
-		printk("%f cm\n", distance);
+		// printk("%d ns\n", measure_time);
+		// printk("%d cm\n", distance);
+		printk("Sensor    D: %d [cm]\n", distance);
     }
 
 	return distance;

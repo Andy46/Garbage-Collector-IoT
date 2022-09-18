@@ -26,5 +26,4 @@ bool alertPosition (t_position position)
     return false;
 }
 
-
 #endif // _INCLUDE_PROCESSORS_ALERTS_H_
