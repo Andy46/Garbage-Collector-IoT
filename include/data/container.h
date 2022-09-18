@@ -52,10 +52,10 @@ typedef enum {
 
 // Container status type
 typedef struct {
-    t_fill fill_status;
-    t_position position;
+    t_fill fill;
     t_humidity humidity;
     t_temperature temperature;
+    t_position position;
 } t_container;
 
 #endif // _INCLUDE_DATA_CONTAINER_H_

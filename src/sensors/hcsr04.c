@@ -21,7 +21,7 @@ void hcsr04_init ()
 
     if (hcsr04_dev == NULL)
     {
-        printk ("Error binding device: HCSR04_PORT");
+        printk ("Error binding device: HCSR04_PORT\n");
     }
     else
     {

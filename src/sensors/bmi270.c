@@ -46,18 +46,22 @@ static const struct device *bmi270;
 
 int bmi270_init(void)
 {
+	printk ("Sensor BMI270 not implemented.");
 	int err = 0;
 
-	if (bmi270) {
-		printk ("Sensor already initialized");
-	} else {
-		bmi270 = DEVICE_DT_GET(DT_INST(0, bosch_bmi270));
-		if (!bmi270) {
-			printk ("Failed to get device");
-			err = ENODEV;
-		}
-	    printk("BMI270 Configured!\n");
-	}
+	// if (bmi270) {
+	// 	printk ("Sensor already initialized\n");
+	// } else {
+	// 	bmi270 = DEVICE_DT_GET(DT_INST(0, bosch_bmi270));
+	// 	if (!bmi270) {
+	// 		printk ("Failed to get device\n");
+	// 		err = ENODEV;
+	// 	}
+	// 	else
+	// 	{
+	//     	printk("BMI270 Configured!\n");
+	// 	}
+	// }
 
 	return err;
 }

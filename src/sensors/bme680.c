@@ -49,11 +49,11 @@ int bme680_init(void)
 	int err = 0;
 
 	if (bme680) {
-		printk ("Sensor already initialized");
+		printk ("Sensor already initialized\n");
 	} else {
 		bme680 = DEVICE_DT_GET(DT_INST(0, bosch_bme680));
 		if (!bme680) {
-			printk ("Failed to get device");
+			printk ("Failed to get device\n");
 			err = ENODEV;
 		}
 	    printk("BME680 Configured!\n");
@@ -69,7 +69,7 @@ int bme680_update_measurements(void)
 	if (bme680) {
 		err = sensor_sample_fetch(bme680);
 	} else {
-		printk ("Sensor not initialized");
+		printk ("Sensor not initialized\n");
 		err = ENODEV;
 	}
 
@@ -88,18 +88,18 @@ int bme680_get_temperature(float *temperature)
 						 SENSOR_CHAN_AMBIENT_TEMP,
 						 &sensor_temperature);
 			if (err) {
-				printk ("Failed to get sensor channel: %d", err);
+				printk ("Failed to get sensor channel: %d\n", err);
 			} else {
-				printk ("Sensor    T:%3d.%06d [*C]",
+				printk ("Sensor    T:%3d.%06d [*C]\n",
 					sensor_temperature.val1, sensor_temperature.val2);
 				*temperature = convert_sensor_value(sensor_temperature);
 			}
 		} else {
-			printk ("Sensor not initialized");
+			printk ("Sensor not initialized\n");
 			err = ENODEV;
 		}
 	} else {
-		printk ("NULL param");
+		printk ("NULL param\n");
 		err = EINVAL;
 	}
 
@@ -118,18 +118,18 @@ int bme680_get_pressure(float *pressure)
 						 SENSOR_CHAN_PRESS,
 						 &sensor_pressure);
 			if (err) {
-				printk ("Failed to get sensor channel: %d", err);
+				printk ("Failed to get sensor channel: %d\n", err);
 			} else {
-				printk ("Sensor    P:%3d.%06d [kPa]",
+				printk ("Sensor    P:%3d.%06d [kPa]\n",
 					sensor_pressure.val1, sensor_pressure.val2);
 				*pressure = convert_sensor_value(sensor_pressure);
 			}
 		} else {
-			printk ("Sensor not initialized");
+			printk ("Sensor not initialized\n");
 			err = ENODEV;
 		}
 	} else {
-		printk ("NULL param");
+		printk ("NULL param\n");
 		err = EINVAL;
 	}
 
@@ -148,18 +148,18 @@ int bme680_get_humidity(float *humidity)
 						 SENSOR_CHAN_HUMIDITY,
 						 &sensor_humidity);
 			if (err) {
-				printk ("Failed to get sensor channel: %d", err);
+				printk ("Failed to get sensor channel: %d\n", err);
 			} else {
-				printk ("Sensor    H:%3d.%06d [%%]",
+				printk ("Sensor    H:%3d.%06d [%%]\n",
 					sensor_humidity.val1, sensor_humidity.val2);
 				*humidity = convert_sensor_value(sensor_humidity);
 			}
 		} else {
-			printk ("Sensor not initialized");
+			printk ("Sensor not initialized\n");
 			err = ENODEV;
 		}
 	} else {
-		printk ("NULL param");
+		printk ("NULL param\n");
 		err = EINVAL;
 	}
 
