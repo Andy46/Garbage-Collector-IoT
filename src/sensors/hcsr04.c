@@ -41,7 +41,7 @@ void hcsr04_init ()
 	printk("HCSR04 Configured!\n");
 }
 
-float hcsr04_measure ()
+uint32_t hcsr04_measure ()
 {
 	uint32_t cycle_start;
 	uint32_t cycle_stop;
@@ -49,7 +49,7 @@ float hcsr04_measure ()
 	uint32_t measure_time;
 	uint32_t val;
 
-	float distance = -1.0f; // in cm
+	uint32_t distance = -1.0f; // in cm
 
     if (hcsr04_dev != NULL)
     {

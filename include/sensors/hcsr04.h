@@ -10,6 +10,6 @@
 
 void hcsr04_init ();
 
-float hcsr04_measure ();
+uint32_t hcsr04_measure ();
 
 #endif // _INCLUDE_SENSORS_HCSR04_H_

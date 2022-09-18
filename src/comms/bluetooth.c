@@ -16,7 +16,7 @@
 #include <zephyr/bluetooth/uuid.h>
 #include <zephyr/bluetooth/gatt.h>
 
-#include <bluetooth/services/lbs.h>
+// #include <bluetooth/services/lbs.h>
 
 #include <zephyr/settings/settings.h>
 
@@ -42,6 +42,8 @@ void bt_update (t_container new_data, t_alerts new_alerts)
 {
     container = new_data;
     alerts = new_alerts;
+
+    bt_svc_notify ();
 }
 
 static const struct bt_data ad[] = {
@@ -50,7 +52,7 @@ static const struct bt_data ad[] = {
 };
 
 static const struct bt_data sd[] = {
-	BT_DATA_BYTES(BT_DATA_UUID128_ALL, BT_UUID_LBS_VAL),
+	BT_DATA_BYTES(BT_DATA_UUID128_ALL, BT_UUID_SVC_DATA_VAL),
 };
 
 static void connected(struct bt_conn *conn, uint8_t err)
@@ -143,20 +145,20 @@ static struct bt_conn_auth_info_cb conn_auth_info_callbacks = {
 static struct bt_conn_auth_cb conn_auth_callbacks;
 #endif
 
-static bool app_svc1_cb(void)
+static bool app_data_cb(void)
 {
-    printk("Service 1 called");
+    printk("Service Data called\n");
 	return true;
 }
-static bool app_svc2_cb(void)
+static bool app_alerts_cb(void)
 {
-    printk("Service 2 called");
+    printk("Service Alerts called\n");
 	return true;
 }
 
 static struct bt_svc_cb service_callbacks = {
-	.service1_cb = app_svc1_cb,
-	.service2_cb = app_svc2_cb,
+	.data_cb = app_data_cb,
+	.alerts_cb = app_alerts_cb,
 };
 
 // static void distance_changed(uint32_t button_state, uint32_t has_changed)

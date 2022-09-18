@@ -46,7 +46,7 @@ void initialize (void)
 void data_collection (void)
 {
 	t_container container_status;
-	float distance = -1.0;
+	uint32_t distance = 0;
 	float temperature = -1.0;
 	float humidity = -1.0;
 	int err = 0;
@@ -152,8 +152,10 @@ void data_processing (void)
  */
 void data_publication (void)
 {
+	printk("Bluetooth notify!\n");
 	// Update bluetooth data
 	// bt_update (container);
+	bt_update (g_container, g_alerts);
 }
 
 void main(void)
