@@ -13,13 +13,20 @@
 #include "sensors/bme680.h"
 #include "sensors/hcsr04.h"
 
-// Data collected/warnings types
+// Data collected/alerts types
 #include "data/container.h"
-// // #include "data/warnings.h"
+#include "data/alerts.h"
+
+// Data processor functions
+#include "processors/alerts.h"
+
+// Communication functions
+// #include "comms/bluetooth.h"
+// #include "comms/bt_service.h"
 
 // Global data
 static t_container g_container = {0};
-// // static t_warnings g_warnings = {0};
+static t_alerts g_alerts = {0};
 
 /**  
  * Initialize phase function
@@ -27,11 +34,11 @@ static t_container g_container = {0};
 void initialize (void)
 {
 // 	// Configure sensor peripherals
-	bme680_init ();
 	hcsr04_init ();
+	bme680_init ();
 	
-// 	// Configure comms peripherals
-// 	// bt_init ();
+	// Configure comms peripherals
+ 	// bt_init ();
 }
 
 /**  
@@ -49,32 +56,29 @@ void data_collection (void)
 	distance = hcsr04_measure ();
 	if (distance < FILL_ERROR_THRESHOLD)
 	{
-		container_status.fill_status = F_ERROR;
+		container_status.fill = F_ERROR;
 	} 
 	else if (distance >= FILL_EMPTY_THRESHOLD) 
 	{
-		container_status.fill_status = F_EMPTY;
+		container_status.fill = F_EMPTY;
 	} 
 	else if (distance >= FILL_25P_THRESHOLD) 
 	{
-		container_status.fill_status = F_25P;
+		container_status.fill = F_25P;
 	} 
 	else if (distance >= FILL_50P_THRESHOLD) 
 	{
-		container_status.fill_status = F_50P;
+		container_status.fill = F_50P;
 	} 
 	else if (distance >= FILL_75P_THRESHOLD) 
 	{
-		container_status.fill_status = F_75P;
+		container_status.fill = F_75P;
 	} 
 	else if (distance >= FILL_FULL_THRESHOLD)
 	{
-		container_status.fill_status = F_FULL;
+		container_status.fill = F_FULL;
 	}
 
-// 	// Update position
-// 	// TODO: Implement
-			
 	// Update Temperature and Humidity
 	err = bme680_update_measurements ();
 
@@ -116,6 +120,12 @@ void data_collection (void)
 		container_status.humidity = H_ERROR;
 	}
 
+// 	// Update position
+// 	// TODO: Implement SPI Driver
+	container_status.position.x_axis = 0.0;
+	container_status.position.y_axis = 0.0;
+	container_status.position.z_axis = 0.0;
+	
 	// End collection
 	g_container = container_status;
 }
@@ -125,7 +135,17 @@ void data_collection (void)
  */
 void data_processing (void)
 {
+	// Process Filled alert
+	g_alerts.filled = alertFilled (g_container.fill);
 
+	// Process Temperature alert
+	g_alerts.temperature = alertTemperature (g_container.temperature);
+	
+	// Process Humidity alert
+	g_alerts.humidity = alertHumidity (g_container.humidity);
+	
+	// Process Position alert
+	g_alerts.position = alertPosition (g_container.position);
 }
 
 /**  
