@@ -1,0 +1,13 @@
+
+#ifndef _INCLUDE_CONFIG_CONSTANTS_H_
+#define _INCLUDE_CONFIG_CONSTANTS_H_
+
+// Timing
+#define SLEEP_TIME_MS 30000
+
+// HC-SR04 
+#define HCSR04_PORT		"GPIO_0"
+#define HCSR04_TRIG_PIN	4
+#define HCSR04_ECHO_PIN	5
+
+#endif // _INCLUDE_DATA_ALERTS_H_

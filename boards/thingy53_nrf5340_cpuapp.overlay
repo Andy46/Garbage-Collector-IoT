@@ -27,9 +27,9 @@
 &i2c1 {
 	status = "okay";
 
-	bme680@76 {
+	bme688@76 {
 		compatible = "bosch,bme680";
-		label = "BME680";
+		label = "BME688";
 		reg = <0x76>;
 		status = "okay";
 	};

@@ -9,6 +9,9 @@
 #include <zephyr/sys/printk.h>
 #include <zephyr/settings/settings.h>
 
+// Configuration
+#include "config/constants.h"
+
 // Peripherals includes
 #include "sensors/bme680.h"
 #include "sensors/hcsr04.h"
@@ -45,7 +48,8 @@ void initialize (void)
  */
 void data_collection (void)
 {
-	t_container container_status;
+	// Temp variables
+	t_container container;
 	uint32_t distance = 0;
 	float temperature = -1.0;
 	float humidity = -1.0;
@@ -53,80 +57,83 @@ void data_collection (void)
 
 	// Update fill status
 	distance = hcsr04_measure ();
+	container.fill_val = distance;
 	if (distance < FILL_ERROR_THRESHOLD)
 	{
-		container_status.fill = F_ERROR;
+		container.fill = F_ERROR;
 	} 
 	else if (distance >= FILL_EMPTY_THRESHOLD) 
 	{
-		container_status.fill = F_EMPTY;
+		container.fill = F_EMPTY;
 	} 
 	else if (distance >= FILL_25P_THRESHOLD) 
 	{
-		container_status.fill = F_25P;
+		container.fill = F_25P;
 	} 
 	else if (distance >= FILL_50P_THRESHOLD) 
 	{
-		container_status.fill = F_50P;
+		container.fill = F_50P;
 	} 
 	else if (distance >= FILL_75P_THRESHOLD) 
 	{
-		container_status.fill = F_75P;
+		container.fill = F_75P;
 	} 
-	else if (distance >= FILL_FULL_THRESHOLD)
+	else // if (distance >= FILL_FULL_THRESHOLD)
 	{
-		container_status.fill = F_FULL;
+		container.fill = F_FULL;
 	}
 
 	// Update Temperature and Humidity
 	err = bme680_update_measurements ();
 
 	err = bme680_get_temperature (&temperature);
+	container.temperature_val = temperature;
 	if (err == 0)
 	{
 		if (temperature <= MIN_TEMP_THRESHOLD)
 		{
-			container_status.temperature = T_LOW;
+			container.temperature = T_LOW;
 		} 
 		else if (temperature >= MAX_TEMP_THRESHOLD) 
 		{
-			container_status.temperature = T_HIGH;
+			container.temperature = T_HIGH;
 		} 
 		else 
 		{
-			container_status.temperature = T_NORMAL;
+			container.temperature = T_NORMAL;
 		}
 	} else {
-		container_status.temperature = T_ERROR;
+		container.temperature = T_ERROR;
 	}
 	
 	err = bme680_get_humidity (&humidity);
+	container.humidity_val = humidity;
 	if (err == 0)
 	{
 		if (humidity <= HUM_LOW_THRESHOLD)
 		{
-			container_status.humidity = H_LOW;
+			container.humidity = H_LOW;
 		} 
 		else if (humidity >= HUM_HIGH_THRESHOLD) 
 		{
-			container_status.humidity = H_HIGH;
+			container.humidity = H_HIGH;
 		} 
 		else 
 		{
-			container_status.humidity = H_MEDIUM;
+			container.humidity = H_MEDIUM;
 		}
 	} else {
-		container_status.humidity = H_ERROR;
+		container.humidity = H_ERROR;
 	}
 
 // 	// Update position
 // 	// TODO: Implement SPI Driver
-	container_status.position.x_axis = 0.0;
-	container_status.position.y_axis = 0.0;
-	container_status.position.z_axis = 0.0;
+	container.position.x_axis = 0.0;
+	container.position.y_axis = 0.0;
+	container.position.z_axis = 0.0;
 	
 	// End collection
-	g_container = container_status;
+	g_container = container;
 }
 
 /**  
@@ -134,17 +141,21 @@ void data_collection (void)
  */
 void data_processing (void)
 {
+	t_alerts alerts_status;
 	// Process Filled alert
-	g_alerts.filled = alertFilled (g_container.fill);
+	alerts_status.filled = alertFilled (g_container.fill);
 
 	// Process Temperature alert
-	g_alerts.temperature = alertTemperature (g_container.temperature);
+	alerts_status.temperature = alertTemperature (g_container.temperature);
 	
 	// Process Humidity alert
-	g_alerts.humidity = alertHumidity (g_container.humidity);
+	alerts_status.humidity = alertHumidity (g_container.humidity);
 	
 	// Process Position alert
-	g_alerts.position = alertPosition (g_container.position);
+	alerts_status.position = alertPosition (g_container.position);
+
+	// End processing
+	g_alerts = alerts_status;
 }
 
 /**  
@@ -152,35 +163,30 @@ void data_processing (void)
  */
 void data_publication (void)
 {
-	printk("Bluetooth notify!\n");
-	// Update bluetooth data
-	// bt_update (container);
 	bt_update (g_container, g_alerts);
 }
 
+/** 
+ * Main function
+ */
 void main(void)
 {
-	printk("Starting Garbage Collection IoT App\n");
-	int counter = 0;
+	printk("Starting Garbage Collection IoT\n");
 	
   	// Initialize phase
 	initialize ();
 
 	for (;;) {
 		// Wait until next measure time
-		k_sleep(K_MSEC(1000));
+		k_sleep(K_MSEC(SLEEP_TIME_MS));
 	
-		// Loop counter
-		counter++;
-		printk ("Counter value is %d\n", counter);
-		
-		// // Data Collection 
+		// Data Collection 
 		data_collection ();
 
-		// // Data Processing
+		// Data Processing
 		data_processing ();
 
-		// // Data publication 
+		// Data publication 
 		data_publication ();
 	}
 }

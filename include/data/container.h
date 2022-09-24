@@ -2,6 +2,8 @@
 #ifndef _INCLUDE_DATA_CONTAINER_H_
 #define _INCLUDE_DATA_CONTAINER_H_
 
+#include <stdint.h>
+
 // Filled type 
 typedef enum {
     F_ERROR = 0,
@@ -53,8 +55,11 @@ typedef enum {
 // Container status type
 typedef struct {
     t_fill fill;
+    uint32_t fill_val;
     t_humidity humidity;
+    float humidity_val;
     t_temperature temperature;
+    float temperature_val;
     t_position position;
 } t_container;
 
